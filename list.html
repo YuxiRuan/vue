@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue/dist/vue.js"></script>
+    <style>
+        *{
+            list-style: none;
+            padding: 0;
+        }
+        #root{
+            width: 200px;
+            background: #000000;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+    <!-- item template -->
+    <script type="text/x-template" id="item-template">
+        <li>
+            <div @click="toggle">
+                {{model.name}}
+            </div>
+            <ul v-show="open">
+                <item
+                        class="item"
+                        v-for="model in model.children"
+                        key="item"
+                        :model="model">
+                </item>
+            </ul>
+        </li>
+    </script>
+</head>
+<body>
+        <ul id="root">
+            <item :model="tree"></item>
+            <item :model="tree"></item>
+            <item :model="tree"></item>
+            <item :model="tree"></item>
+        </ul>
+</body>
+</html>
+<script>
+    Vue.component('item', {
+        template: '#item-template',
+        props: {
+            model: Object
+        },
+        data: function () {
+            return {
+                open: false
+            }
+        },
+        methods: {
+            toggle: function () {
+                this.open = !this.open
+            }
+        }
+    });
+
+  new Vue({
+        el: '#root',
+        data: {
+            tree:  {
+                name: '★一级标题',
+                children: [
+                    { name: '●二级标题',
+                        children: [
+                            { name: '◆三级标题' },
+                            { name: '◆三级标题' }
+                        ]
+                    },
+                    { name: '●二级标题',
+                        children: [
+                            { name: '◆三级标题' },
+                            { name: '◆三级标题' }
+                        ]
+                    },
+                    {name: '●二级标题',
+                        children: [
+                            { name: '◆三级标题' },
+                            { name: '◆三级标题' }
+                        ]
+                    }
+                ]
+            }
+        }
+    })
+</script>
